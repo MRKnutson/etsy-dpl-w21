@@ -16,3 +16,38 @@ u1 = User.create(email:"test@test.com", password: 123456)
     password: Faker::Internet.password(min_length: 6),
   )
 end
+
+categories = [
+  'Jewelry',
+  'Home Goods',
+  'Health & Beauty',
+  'Tools',
+]
+
+10.times do
+  s = Seller.create(
+    name: Faker::FunnyName.name,
+    email: Faker::Internet.email,
+  )
+
+  5.times do
+    num_categories = rand(0..categories.length - 1);
+    Buyer.create(
+      name: Faker::FunnyName.name,
+      max_price: rand(50..1500),
+      desired_categories: categories.sample(num_categories),
+      seller_id: s.id
+    )
+  end
+  
+  5.times do
+    price = rand(10..1500)
+    p = Product.create(
+      name: Faker::Commerce.product_name,
+      price: price,
+      description: Faker::Hacker.say_something_smart,
+      category: categories.sample(),
+      seller_id: s.id
+  )
+  end
+end
