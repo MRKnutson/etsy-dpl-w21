@@ -4,4 +4,8 @@ class Api::ProductsController < ApplicationController
     render json: Product.listed
   end
 
+  def catindex
+    render json: Product.category_listed
+  end
+
 end

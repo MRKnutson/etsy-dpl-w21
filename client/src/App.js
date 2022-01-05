@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import Protected from './pages/Protected';
 import RequireAuth from './components/RequireAuth';
 import Products from './pages/Products';
+import Categories from './pages/Categories';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path = "/register" element = {<Register />} />
         <Route path = "/login" element = {<Login />} />
         <Route path = "/products" element = {<Products />} />
+        <Route path = "/categories" element = {<Categories/>} />
         <Route element = {<RequireAuth />}>
           <Route path = "/protected" element = {<Protected />} />
         </Route>
