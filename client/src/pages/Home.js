@@ -6,7 +6,7 @@ import { AuthContext } from '../providers/AuthProvider';
 
 const Home =  () => {
   const auth = useContext(AuthContext)
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState(null)
   const [products, setProducts] = useState([])
   const [filteredProducts, setFilteredProducts] = useState([])
 

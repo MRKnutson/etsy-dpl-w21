@@ -68,14 +68,12 @@ const Products = () => {
   const renderRows = (products)=>{
     return products.map((product)=>{
       return(
-        <>
         <tr key = {product.id}>
           <td>{product.product_name}</td>
           <td>${(Math.round(product.price*100)/100).toFixed(2)}</td>
           <td>{product.description}</td>
           <td>{product.category}</td>
         </tr>
-        </>
       )
     })
   };
