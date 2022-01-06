@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Form, FormControl, Table } from 'react-bootstrap';
+import { Button, Container, Form, FormControl, Table } from 'react-bootstrap';
 import RenderJson from '../components/RenderJson';
+import SearchBar from '../components/SearchBar';
+import SearchTable from '../components/SearchTable';
 import { AuthContext } from '../providers/AuthProvider';
 
 const Home =  () => {
@@ -14,10 +16,6 @@ const Home =  () => {
     getProducts()
   },[])
 
-  useEffect(()=>{
-    filterProducts()
-  },[search])
-
   const getProducts = async () => {
     try {
       let response = await axios.get(`/api/products`)
@@ -28,7 +26,7 @@ const Home =  () => {
     };
   };
 
-  const filterProducts = () => {
+  const filterProducts = (search) => {
     let allProducts = products
     let mappedProducts = allProducts.map((product)=>{
       if(product.product_name.includes(search)) {
@@ -36,53 +34,20 @@ const Home =  () => {
       }
     })
     setFilteredProducts(mappedProducts)
+    setSearch(search)
   };
-
-  const renderProducts = () => {
-    return products.map((product)=>{
-      return(
-        <>
-          <tr key = {product.product_id}> 
-            <td>{product.product_name}</td>
-            <td>${(Math.round(product.price*100)/100).toFixed(2)}</td>
-            <td>{product.description}</td>
-            <td>{product.category}</td>
-          </tr>
-        </>
-      )
-    })
-  };
-
 
   return(
-    <div>
+    <Container>
       <h1>Home</h1>
-      <Form className="d-flex" onSubmit={()=>renderProducts()}>
-        <FormControl
-          type="search"
-          placeholder="Search"
-          className="me-2"
-          aria-label="Search"
-          onChange = { (e)=>{setSearch(e.target.value)} }
-        />
-        <Button variant="outline-success">Search</Button>
-      </Form>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Product Price</th>
-            <th>Description</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredProducts && renderProducts()}
-        </tbody>
-      </Table>
+      <SearchBar 
+        input = {search}
+        filterProducts = {filterProducts}
+      />
+      {products && <SearchTable products ={filteredProducts}/>}
       <RenderJson json={search} />
       <RenderJson json={filteredProducts} />
-    </div>
+    </Container>
   )
 };
 
