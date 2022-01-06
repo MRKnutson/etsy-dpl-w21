@@ -83,7 +83,7 @@ const Products = () => {
   return (
     <Container style = {{marginTop: "15px"}}>
       <h1>Available Products by Seller:</h1>
-      {renderTables()}
+      {normalizedData && renderTables()}
     </Container>
   );
 };
