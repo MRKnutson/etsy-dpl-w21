@@ -1,14 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Container, Form, Table } from 'react-bootstrap';
+import { Card, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import RenderJson from '../components/RenderJson';
+import { TableCard } from '../components/Styles';
 
 const HighlightedProducts = () => {
   const [sellerChoice, setSellerChoice] = useState(null)
   const [buyerChoice, setBuyerChoice] = useState(null)
+  const [buyer, setBuyer] = useState(null)
   const [buyers, setBuyers]= useState(null)
   const [sellers, setSellers]= useState(null)
-  const [products, setProducts]= useState(null)
+  const [products, setProducts]= useState()
 
   useEffect(()=>{
     getData()
@@ -24,12 +26,13 @@ const HighlightedProducts = () => {
   };
 
   const getBuyerData = async (id) => {
+    if(id){
     try{
       let response = await axios.get(`/api/sellers/${id}`)
       setBuyers(response.data)
     } catch (err){
       alert('error getting buyers')
-    }
+    }}
   };
 
   const getProducts = async (seller_id, buyer_id) => {
@@ -43,24 +46,29 @@ const HighlightedProducts = () => {
 
   const renderSellerOptions =()=>{
       if(sellers){
-        return sellers.map((seller)=>{
+        return (
+          sellers.map((seller)=>{
           return <option key = {seller.id}>{seller.name}</option>
-        })
+        }))
       } else {
       alert('havent mapped')
     }
   };
 
   const handleSellerSelection = (seller_name) => {
+    if(seller_name){
+    setBuyers(null)
+    setProducts(null)
     let seller = sellers.find((s)=>s.name == seller_name)
     setSellerChoice(seller)
-    getBuyerData(seller.id)
+    getBuyerData(seller.id)}
   };
 
   const handleBuyerSelection = (buyer_name) => {
     setBuyerChoice(buyer_name)
-    let buyer = buyers.find((b)=>b.name == buyer_name)
-    getProducts(sellerChoice.id, buyer.id)
+    let thisBuyer = buyers.find((b)=>b.name == buyer_name)
+    setBuyer(thisBuyer)
+    getProducts(sellerChoice.id, thisBuyer.id)
   };
 
   const renderBuyerOptions =()=>{
@@ -74,36 +82,60 @@ const HighlightedProducts = () => {
   };
 
   const buyerDropdown = () => {
-    return(
-      <>
-        <h3>Select Buyer</h3>
-        <Form.Select onChange = {(e)=>handleBuyerSelection(e.target.value)}>
-          {renderBuyerOptions()}
-        </Form.Select>
-      </>
-    )
+    if (buyers){
+      return(
+        <>
+          <h3>Buyer</h3>
+          <Form.Select onChange = {(e)=>handleBuyerSelection(e.target.value)}>
+            {renderBuyerOptions()}
+          </Form.Select>
+        </>
+      )
+    } else {
+      return(
+        <>
+          <h3>Buyer</h3>
+          <Form.Select disabled />
+        </>
+      )
+    }
   };
 
   const renderProductTable = () => {
-    if(products){
+    if(products.length>0){
       return(
-        <Table striped bordered hover style ={{marginTop: "30px"}}>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Product Price</th>
-              <th>Description</th>
-              <th>Seller</th>
-              <th>Seller Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderRows()}
-          </tbody>
-        </Table>
+        <TableCard style ={{marginTop: "30px"}}>
+          <Card border = "dark" className = "text-center" bg = "secondary" text = "white" style = {{borderRadius: "0px"}}> 
+            <Row>
+              <Col as = "h5">Seller Email: {sellerChoice.email}</Col>
+              <Col></Col>
+              <Col as = "h5">Buyers max price: {buyer.max_price}</Col>
+            </Row>
+          </Card>
+          <Table striped bordered hover >
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Product Price</th>
+                <th>Description</th>
+                <th>Seller</th>
+                <th>Seller Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderRows()}
+            </tbody>
+          </Table>
+        </TableCard>
       )
     } else {
-      return null
+      return (
+        <TableCard style ={{marginTop: "30px"}}>
+          <Card border = "dark" className = "text-center" bg = "secondary" text = "white" style = {{borderRadius: "0px"}}>
+            <h4>No Product Matches</h4>
+          </Card>
+        </TableCard>
+      )
     }
   };
 
@@ -140,15 +172,15 @@ const HighlightedProducts = () => {
     }
   };
 
-
   return(
     <Container>
       <h1>Select things here</h1>
-      <h3>Select Seller:</h3>
+      <h3>Seller:</h3>
       <Form.Select onChange ={(e)=>handleSellerSelection(e.target.value)}>
+        <option>Select a Seller</option>
         {sellers && renderSellerOptions()}
       </Form.Select>
-      {buyers && buyerDropdown()}
+      {buyerDropdown()}
       {products && renderProductTable()}
     </Container>
   )

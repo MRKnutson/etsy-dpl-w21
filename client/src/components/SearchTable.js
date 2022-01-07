@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table } from 'react-bootstrap';
+import { TableCard } from './Styles';
 
 const SearchTable = (props) => {
   const { products } = props;
@@ -21,9 +22,9 @@ const SearchTable = (props) => {
   };
 
   return(
-    <>
-    <Table striped bordered hover>
-        <thead>
+    <TableCard style = {{border: "1px solid lightgrey"}}>
+      <Table striped borderless hover>
+        <thead style = {{borderBottom: "2px solid black"}}>
           <tr>
             <th>Product Name</th>
             <th>Product Price</th>
@@ -35,7 +36,7 @@ const SearchTable = (props) => {
           {products && renderProducts()}
         </tbody>
       </Table>
-    </>
+    </TableCard>
   )
 };
 

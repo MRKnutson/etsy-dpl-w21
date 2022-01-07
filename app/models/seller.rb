@@ -3,7 +3,7 @@ class Seller < ApplicationRecord
   has_many :products
 
   def self.unique_seller
-    select('DISTINCT name, id')
+    select('DISTINCT name, id, email')
   end
 
 end

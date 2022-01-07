@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Container, Form, FormControl, Table } from 'react-bootstrap';
-import RenderJson from '../components/RenderJson';
+import { Container } from 'react-bootstrap';
+
 import SearchBar from '../components/SearchBar';
 import SearchTable from '../components/SearchTable';
 import { AuthContext } from '../providers/AuthProvider';
@@ -45,8 +45,6 @@ const Home =  () => {
         filterProducts = {filterProducts}
       />
       {products && <SearchTable products ={filteredProducts}/>}
-      <RenderJson json={search} />
-      <RenderJson json={filteredProducts} />
     </Container>
   )
 };
