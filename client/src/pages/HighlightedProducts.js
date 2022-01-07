@@ -87,6 +87,7 @@ const HighlightedProducts = () => {
         <>
           <h3>Buyer</h3>
           <Form.Select onChange = {(e)=>handleBuyerSelection(e.target.value)}>
+            <option>Select a Buyer</option>
             {renderBuyerOptions()}
           </Form.Select>
         </>
@@ -95,7 +96,9 @@ const HighlightedProducts = () => {
       return(
         <>
           <h3>Buyer</h3>
-          <Form.Select disabled />
+          <Form.Select disabled >
+            <option>Select a Buyer</option>
+          </Form.Select>
         </>
       )
     }

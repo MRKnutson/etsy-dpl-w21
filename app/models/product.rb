@@ -9,11 +9,11 @@ class Product < ApplicationRecord
     select('products.id AS product_id, products.name AS product_name, price, description, category, s.id AS seller_id, s.name AS seller_name, s.email').joins('INNER JOIN sellers AS s ON s.id = products.seller_id').order('category, price DESC')
   end
 
-  def self.products_of_interest(categories, seller_id)
+  def self.products_of_interest(categories, buyer_id)
     select('products.id AS product_id, products.name AS product_name, price, description, category, s.name AS seller_name, email, b.name AS buyer_name, max_price')
     .joins("INNER JOIN sellers AS s ON s.id = products.seller_id AND category = ANY('{#{categories.join(', ')}}')
     INNER JOIN buyers AS b ON b.seller_id = products.seller_id")
-    .where("products.price < b.max_price AND s.id = #{seller_id}")
+    .where("products.price < b.max_price AND b.id = #{buyer_id}")
     # "#{categories}"
   end
 
