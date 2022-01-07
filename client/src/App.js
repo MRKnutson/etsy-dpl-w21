@@ -8,6 +8,7 @@ import Protected from './pages/Protected';
 import RequireAuth from './components/RequireAuth';
 import Products from './pages/Products';
 import Categories from './pages/Categories';
+import HighlightedProducts from './pages/HighlightedProducts';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path = "/login" element = {<Login />} />
         <Route path = "/products" element = {<Products />} />
         <Route path = "/categories" element = {<Categories/>} />
+        <Route path = "/interestingproducts" element = {<HighlightedProducts/>} />
         <Route element = {<RequireAuth />}>
           <Route path = "/protected" element = {<Protected />} />
         </Route>

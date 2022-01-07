@@ -47,6 +47,7 @@ const Layout = () => {
               {/* <Nav.Link eventKey = "/">Home</Nav.Link> */}
               <Nav.Link eventKey = "/products">Sellers</Nav.Link>
               <Nav.Link eventKey = "/categories">Categories</Nav.Link>
+              <Nav.Link eventKey = "/interestingproducts">Products of Interest</Nav.Link>
               {/* <Nav.Link eventKey = "/protected">Protected</Nav.Link> */}
             </Nav>
             <Nav className="justify-content-end" onSelect = {handleSelect}>

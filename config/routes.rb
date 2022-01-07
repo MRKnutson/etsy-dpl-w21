@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     get 'products', to: 'products#index'
     get 'categories', to: 'products#catindex'
     get 'sellers/:seller_id/buyers/:buyer_id', to: 'products#select'
+    get 'sellers', to: 'sellers#index'
+    get 'sellers/:id', to: 'sellers#show'
+    get 'buyers', to: 'buyers#index'
   end
 
 end
