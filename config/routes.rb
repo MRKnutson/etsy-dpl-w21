@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'products', to: 'products#index'
+    get 'cat_ave', to: 'products#cat_ave'
     get 'categories', to: 'products#catindex'
     get 'sellers/:seller_id/buyers/:buyer_id', to: 'products#select'
     get 'sellers', to: 'sellers#index'

@@ -17,6 +17,10 @@ class Product < ApplicationRecord
     # "#{categories}"
   end
 
+  def self.cat_average
+    select('category, AVG(price) AS frequency').group('category')
+  end
+
 end
 
 

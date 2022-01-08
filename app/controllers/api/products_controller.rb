@@ -14,4 +14,8 @@ class Api::ProductsController < ApplicationController
     render json: @seller.products.products_of_interest(@buyer.desired_categories, @buyer.id)
   end
 
+  def cat_ave
+    render json: Product.cat_average
+  end
+
 end
